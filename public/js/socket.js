@@ -12,7 +12,7 @@ function makePopup(tweet){
 function addPoint(tweet){
   L.marker(tweet.geo)
   .bindPopup(makePopup(tweet))
-  .addTo(map);
+  .addTo(ptCluster);
 }
 
 function addTweet(tweet){
@@ -39,5 +39,6 @@ $(document).ready(function(){
     tweets.forEach(function(tweet){
       addPoint(tweet)
     })
+    map.fitBounds(ptCluster.getBounds())
   })
 })
