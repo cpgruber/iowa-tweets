@@ -42,7 +42,10 @@ io.on('connection', function(socket){
           io.emit("tweet", doc)
         })
       }else{
-        io.emit("tweet",doc)
+        var t = {};
+        t.user = tweet.user.screen_name;
+        t.text = tweet.text;
+        io.emit("tweet",t)
       }
     });
   });
