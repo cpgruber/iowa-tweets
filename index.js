@@ -3,6 +3,8 @@ var Twit = require("twit");
 var fs = require("fs");
 var env = fs.existsSync("./env.js") ? require("./env") : process.env;
 
+var Tweet = require("./models/tweet");
+
 var app = express();
 app.use(express.static(__dirname + '/public'));
 
@@ -17,24 +19,19 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 io.on('connection', function(socket){
-
-  console.log('user connected');
-  socket.on('point', function(coords){
-    io.emit('point', coords);
-  });
-
   socket.on("start stream", function(b){
-    var stream = twitter.stream('statuses/filter', { track: 'el chapo' });
+    var stream = twitter.stream('statuses/filter', { track: 'Iowa' });
     stream.on('tweet', function (tweet) {
-      var asker = tweet.user.screen_name;
-      var id = tweet.id_str;
-      var text = tweet.text;
-      var geo = tweet.geo;
-      var coordinates = tweet.coordinates;
-      console.log(geo, coordinates, text);
-      if (geo){
-        io.emit('point', geo.coordinates);
-      }
+      var newTweet = new Tweet();
+      newTweet.createdAt = new Date();
+      newTweet.user = tweet.user.screen_name;
+      newTweet.text = tweet.text;
+      newTweet.geo = (tweet.geo)?tweet.geo.coordinates:null;
+      newTweet.save(function(err,doc){
+        if(!err){
+          io.emit("tweet", doc)
+        }
+      })
     });
   });
 

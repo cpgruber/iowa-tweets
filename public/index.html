@@ -19,20 +19,26 @@
     <script>
      var socket = io();
      socket.emit("start stream",true);
-     map.on("click", function(e){
-       var coords = [e.latlng.lat,e.latlng.lng];
-       socket.emit('point', coords);
-      return false;
-     }.bind(map));
 
-     function addPoint(coords){
-       L.marker(coords).addTo(map);
+     function makePopup(tweet){
+       var p = document.createElement("p")
+       p.textContent = tweet.user+": "+tweet.text;
+       return p;
      }
 
-     socket.on('point', function(coords){
-       console.log("points here")
-       addPoint(coords)
-     });
+     function addPoint(tweet){
+       L.marker(tweet.geo);
+       .bindPopup(makePopup(tweet));
+       .addTo(map);
+     }
+
+     socket.on("tweet", function(tweet){
+       addTweet(tweet);
+       if(tweet.geo){
+         addPoint(tweet);
+       }
+     })
+
     </script>
   </body>
 </html>
