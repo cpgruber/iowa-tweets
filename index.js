@@ -15,12 +15,22 @@ var twitter = new Twit({
   access_token_secret: env.access_token_secret
 });
 
+app.get("/geotweets.json", function(req,res){
+  Tweet.find({'geo':{ $ne: null }}, function(err,tweets){
+    if (!err){
+      res.json(tweets);
+    }
+  })
+})
+
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+// var terms = 'Bush,Jeb Bush,Jeb,Carson,Ben Carson,Christie,Chris Christie,Clinton,Hillary Clinton,Hillary,Cruz,Ted Cruz,Fiorina,Carly Fiorina,Gilmore,Jim Gilmore,Huckabee,Mike Huckabee,Kasich,John Kasich,O\'Malley,Martin O\'Malley,Paul,Rand Paul,Rubio,Marco Rubio,Marco,Sanders,Bernie Sanders,Bernie,Santorum,Rick Santorum,Trump,Donald Trump,Donald'
+
 io.on('connection', function(socket){
   socket.on("start stream", function(b){
-    var stream = twitter.stream('statuses/filter', { track: 'Iowa' });
+    var stream = twitter.stream('statuses/filter', { track: 'Iowa,Caucus' });
     stream.on('tweet', function (tweet) {
       var newTweet = new Tweet();
       newTweet.createdAt = new Date();

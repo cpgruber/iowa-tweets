@@ -2,32 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>map test</title>
+    <title>Iowa is so popular</title>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body {
-        font:13px Helvetica, Arial;
-        height:100%;}
-      #map{
-        position:absolute;
-        right:0;
-        height:100vh;
-        width:85vw;
-      }
-      #tweets{
-        position:absolute;left:0;
-        height:100vh;
-        width:15vw;
-        overflow-y: scroll;
-      }
-      ul{
-        width:100%;
-        height:100%;
-      }
-    </style>
     <script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet' />
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div id="map"></div>
@@ -36,44 +15,6 @@
     </div>
     <script src="app.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-     var socket = io();
-     socket.emit("start stream",true);
-
-     var list = document.querySelector("ul");
-
-     function makePopup(tweet){
-       var p = document.createElement("p")
-       p.textContent = tweet.user+": "+tweet.text;
-       return p;
-     }
-
-     function addPoint(tweet){
-       L.marker(tweet.geo)
-       .bindPopup(makePopup(tweet))
-       .addTo(map);
-     }
-
-     function addTweet(tweet){
-       var li = document.createElement("li");
-       li.appendChild(makePopup(tweet));
-       list.insertBefore(li, list.childNodes[0]);
-       if (list.childNodes.length > 100){
-         var len = list.childNodes.length;
-         for (var i=len-1;i<100;i--){
-            list.removeChild(list.childNodes[i]);
-         }
-       }
-     }
-
-     socket.on("tweet", function(tweet){
-       addTweet(tweet);
-       if(tweet.geo){
-         addPoint(tweet);
-       }
-       console.log(tweet)
-     })
-
-    </script>
+    <script src="socket.js"></script>
   </body>
 </html>
