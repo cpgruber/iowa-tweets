@@ -32,16 +32,18 @@ io.on('connection', function(socket){
   socket.on("start stream", function(b){
     var stream = twitter.stream('statuses/filter', { track: 'Iowa,Caucus' });
     stream.on('tweet', function (tweet) {
-      var newTweet = new Tweet();
-      newTweet.createdAt = new Date();
-      newTweet.user = tweet.user.screen_name;
-      newTweet.text = tweet.text;
-      newTweet.geo = (tweet.geo)?tweet.geo.coordinates:null;
-      newTweet.save(function(err,doc){
-        if(!err){
+      if (tweet.geo){
+        var newTweet = new Tweet();
+        newTweet.createdAt = new Date();
+        newTweet.user = tweet.user.screen_name;
+        newTweet.text = tweet.text;
+        newTweet.geo = tweet.geo.coordinates;
+        newTweet.save(function(err,doc){
           io.emit("tweet", doc)
-        }
-      })
+        })
+      }else{
+        io.emit("tweet",doc)
+      }
     });
   });
 

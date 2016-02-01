@@ -19,9 +19,9 @@ function addTweet(tweet){
   var li = document.createElement("li");
   li.appendChild(makePopup(tweet));
   list.insertBefore(li, list.childNodes[0]);
-  if (list.childNodes.length > 100){
+  if (list.childNodes.length > 25){
     var len = list.childNodes.length;
-    for (var i=len-1;i<100;i--){
+    for (var i=len-1;i<25;i--){
        list.removeChild(list.childNodes[i]);
     }
   }
