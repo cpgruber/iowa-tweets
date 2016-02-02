@@ -5,6 +5,7 @@ var list = document.querySelector("ul");
 
 function makePopup(tweet,c){
   var p = document.createElement("p");
+  p.className = "poptext";
   p.innerHTML = "<b>"+tweet.user+"</b>: "+tweet.text+"<br>";
   if (c){
     var close = document.createElement("a");
