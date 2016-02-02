@@ -41,5 +41,10 @@ li:nth-child(even){
   text-align: center;
   border:2px solid gray;
   opacity:0.8;
+  padding-top:2px;
   font-weight: bold;
+  font-size:11px;
+}
+a.leaflet-popup-close-button{
+  display:none;
 }
