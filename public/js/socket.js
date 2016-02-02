@@ -5,14 +5,23 @@ var list = document.querySelector("ul");
 
 function makePopup(tweet){
   var p = document.createElement("p")
-  p.textContent = tweet.user+": "+tweet.text;
+  p.innerHTML = "<b>"+tweet.user+"</b>: "+tweet.text;
   return p;
 }
 
 function addPoint(tweet){
-  L.marker(tweet.geo)
+  var marker = L.marker(tweet.geo)
+  .setIcon(L.divIcon({
+    className: 'cluster',
+    iconSize:[15,15],
+  }))
   .bindPopup(makePopup(tweet))
   .addTo(ptCluster);
+
+  marker.on("mouseover",function(evt){
+    evt.preventDefault;
+    this.openPopup();
+  })
 }
 
 function addTweet(tweet){

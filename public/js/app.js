@@ -12,13 +12,13 @@ var ptCluster = new L.MarkerClusterGroup({
         return L.divIcon({
           html:cluster.getChildCount(),
           className: 'cluster',
-          iconSize:L.point(40,40)
+          iconSize:L.point(25,25)
         })
     },
     spiderfyOnMaxZoom: false,
     showCoverageOnHover: false,
     spiderLegPolylineOptions: {weight: 1, color:'#fff'},
-    maxClusterRadius:30
+    maxClusterRadius:20
 }).addTo(map);
 
 ptCluster.on('clustermouseover', function (a) {

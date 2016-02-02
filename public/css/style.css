@@ -29,4 +29,7 @@ li:nth-child(even){
   border-radius: 50%;
   background: white;
   text-align: center;
+  border:2px solid gray;
+  opacity:0.8;
+  font-weight: bold;
 }
