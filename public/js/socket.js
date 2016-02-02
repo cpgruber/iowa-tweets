@@ -5,7 +5,14 @@ var list = document.querySelector("ul");
 
 function makePopup(tweet){
   var p = document.createElement("p")
-  p.innerHTML = "<b>"+tweet.user+"</b>: "+tweet.text;
+  var close = document.createElement("a");
+  close.textContent = "close";
+  close.addEventListener("click", function(e){
+    e.preventDefault();
+    map.closePopup();
+  })
+  p.innerHTML = "<b>"+tweet.user+"</b>: "+tweet.text+"<br>";
+  p.appendChild(close)
   return p;
 }
 
