@@ -30,7 +30,7 @@ var io = require('socket.io')(http);
 
 io.on('connection', function(socket){
   socket.on("start stream", function(b){
-    var stream = twitter.stream('statuses/filter', { track: 'Iowa,Caucus,IACaucus' });
+    var stream = twitter.stream('statuses/filter', { track: 'Iowa,Caucus,IACaucus,IowaCaucus' });
     stream.on('tweet', function (tweet) {
       if (tweet.geo){
         var newTweet = new Tweet();
