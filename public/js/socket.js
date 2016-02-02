@@ -30,7 +30,7 @@ function addTweet(tweet){
   list.insertBefore(li, list.childNodes[0]);
   if (list.childNodes.length > 25){
     var len = list.childNodes.length;
-    for (var i=len-1;i<25;i--){
+    for (var i=len-1;i>25;i--){
        list.removeChild(list.childNodes[i]);
     }
   }
