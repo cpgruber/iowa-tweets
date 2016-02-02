@@ -3,16 +3,18 @@ socket.emit("start stream",true);
 
 var list = document.querySelector("ul");
 
-function makePopup(tweet){
-  var p = document.createElement("p")
-  var close = document.createElement("a");
-  close.textContent = "close";
-  close.addEventListener("click", function(e){
-    e.preventDefault();
-    map.closePopup();
-  })
-  p.innerHTML = "<b>"+tweet.user+"</b>: "+tweet.text+"<br>";
-  p.appendChild(close)
+function makePopup(tweet,c){
+  var p = document.createElement("p");
+  p.innerHTML = "<b>"+tweet.user+"</b>: "+tweet.text;
+  if (c){
+    var close = document.createElement("a");
+    close.textContent = "close";
+    close.addEventListener("click", function(e){
+      e.preventDefault();
+      map.closePopup();
+    })
+    p.appendChild(close)
+  }
   return p;
 }
 
@@ -22,7 +24,7 @@ function addPoint(tweet){
     className: 'cluster',
     iconSize:[15,15],
   }))
-  .bindPopup(makePopup(tweet))
+  .bindPopup(makePopup(tweet,true))
   .addTo(ptCluster);
 
   marker.on("mouseover",function(evt){
@@ -33,7 +35,7 @@ function addPoint(tweet){
 
 function addTweet(tweet){
   var li = document.createElement("li");
-  li.appendChild(makePopup(tweet));
+  li.appendChild(makePopup(tweet,false));
   list.insertBefore(li, list.childNodes[0]);
   if (list.childNodes.length > 25){
     var len = list.childNodes.length;
